@@ -74,9 +74,16 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-wp-posts-nav.php';
  * @since    1.0.0
  */
 function run_wp_posts_nav() {
-
 	$plugin = new WP_Posts_Nav();
 	$plugin->run();
 
 }
 run_wp_posts_nav();
+
+function tof_wp_posts_nav() {
+	$next_post_link = '<div class="tof-next-post-wrap"><div class="tof-next-post-button"></div></div>';
+	add_filter( 'astra_single_post_navigation_enabled', '__return_false' ); // Removes original page navigation
+	$tof_next_button_link = get_adjacent_post_link($format = '%link', $link=$next_post_link);
+	return $tof_next_button_link;
+}
+add_shortcode('wp_next_post','tof_wp_posts_nav');
